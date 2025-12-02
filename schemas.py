@@ -24,8 +24,11 @@ class User(BaseModel):
     group: UserGroup = Field(..., description="Grupo departamental do usuário")
     password: str = Field(..., min_length=6, description="Senha com mínimo 6 caracteres")
 
-class UserResponse(User):
+class UserResponse(BaseModel):
     id: int
+    name: str
+    email: EmailStr
+    group: UserGroup
 
     class Config:
         from_attributes = True
