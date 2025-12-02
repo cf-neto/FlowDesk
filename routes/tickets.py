@@ -72,13 +72,13 @@ async def create_ticket(ticket_in: schemas.TicketCreate, db: Session = Depends(g
 @router_tickets.delete("/id/{ticket_id}", response_model=schemas.TicketResponse)
 async def delete(ticket_id: int, db: Session = Depends(get_db)):
     # Verificar se o usuário criador existe
-    user_exists = db.query(models.Ticket).filter(models.Ticket.id == ticket_id).first()
-    if not user_exists:
+    tickets_ID = db.query(models.Ticket).filter(models.Ticket.id == ticket_id).first()
+    if not tickets_ID:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Ticket com id {ticket_id} não encontrado"
         )
     
-    db.delete(ticket_id)
+    db.delete(tickets_ID)
     db.commit()
-    return {"message": "Ticket deletado com sucesso"}
+    return tickets_ID
